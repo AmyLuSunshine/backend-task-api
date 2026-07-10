@@ -12,6 +12,12 @@ async function seed() {
     password: "12345678",
   });
 
+  const ddy = await User.create({
+    name: "ddy",
+    email: "ddy@gmail.com",
+    password: "12345678",
+  });
+
   //Task.create({ ..., UserId: alex.id }) is how a task gets attached to a user
   //  — the foreign key is just a column you set.
   await Task.create({

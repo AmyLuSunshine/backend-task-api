@@ -3,14 +3,14 @@ Mounting with app.use("/api/tasks", ...)
 adds the /api/tasks prefix — the router file itself doesn't repeat it. */
 const express = require("express");
 //Create an express.Router()
-const taskRouter = express.Router();
+const tasksRouter = express.Router();
 const { Task } = require("../models");
 
 // Add five routes on the router
 // Every route sends exactly one response.
 
 //get all tasks: get()
-taskRouter.get("/", async (req, res) => {
+tasksRouter.get("/", async (req, res) => {
   try {
     // findAll() returns every row in the table as an array of model instances.
     const tasks = await Task.findAll();
@@ -24,7 +24,7 @@ taskRouter.get("/", async (req, res) => {
 });
 
 // get one task by id (use findByPk)
-taskRouter.get("/:id", async (req, res) => {
+tasksRouter.get("/:id", async (req, res) => {
   try {
     const task = await Task.findByPk(Number(req.params.id)); //params are always strings — convert to Number
     /* findByPk finds a row by its primary key (the id), 
@@ -41,13 +41,13 @@ taskRouter.get("/:id", async (req, res) => {
 // create a task from req.body - post()
 //  findByPk() looks up a single row by its primary key.
 // It returns null (not undefined) when nothing matches — always check before responding.
-taskRouter.post("/", async (req, res) => {
+tasksRouter.post("/", async (req, res) => {
   try {
     const userRequest = req.body; // it's just request body
-    if (!userRequestw) {
+    if (!userRequest) {
       res.status(404);
     }
-    const newTask = await Task.create(urlRequest); //tell module to create info
+    const newTask = await Task.create(userRequest); //tell module to create info
     res.status(201).json(newTask); //response the user
   } catch (error) {
     return res.status(404);
@@ -55,7 +55,7 @@ taskRouter.post("/", async (req, res) => {
 });
 
 // update a task
-taskRouter.patch("/:id", async (req, res) => {
+tasksRouter.patch("/:id", async (req, res) => {
   try {
     //1.get the new Task from request body
     //2.find the task to be updated
@@ -75,7 +75,7 @@ taskRouter.patch("/:id", async (req, res) => {
   }
 });
 
-taskRouter.delete("/:id", async (req, res) => {
+tasksRouter.delete("/:id", async (req, res) => {
   try {
     //1.get id from req.params
     //2.findById
@@ -92,10 +92,13 @@ taskRouter.delete("/:id", async (req, res) => {
 
     await deleteTask.destroy(); // filter() is for front end, express stuff
 
-    res.status(204);
+    //res.status(204).send();
+    res.sendStatus(204); // status 204 need the send
   } catch (error) {
     return res.status(404);
   }
 });
 
-module.exports = taskRouter;
+module.exports = tasksRouter;
+
+

@@ -15,8 +15,10 @@ const PORT = 3000;
 const { db } = require("./models");
 
 const tasksRouter = require("./routes/tasks");
+const usersRouter = require("./routes/users");
 // mount the router
 app.use("/api/tasks", tasksRouter);
+app.use("/api/users", usersRouter);
 //telling Express:
 // "Take every route inside tasksRouter, and glue '/api/tasks' to the front of it."
 
