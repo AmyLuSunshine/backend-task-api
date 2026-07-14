@@ -16,7 +16,7 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: { isEmail: true },
+      validate: { isEmail: true }, //CHECKS if email format
     }, // add validation: must be real email
     password: {
       type: DataTypes.STRING,
